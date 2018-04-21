@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Delete blog</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("https://image.freepik.com/free-vector/bright-background-with-dots_1055-3132.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+</style>
+</head>
+<body>
+<div class="bg">
+<div class="container">
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'home' %}">Blogger</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="{% url 'home' %}">Home <span class="glyphicon glyphicon-home"></span></a></li>
+      <li><a href="{% url 'create_blog' %}">Create blog</a></li>
+      <li><a href="{% url 'myblogs' %}">My blogs</a></li>
+       <li class="active"><a href="{% url 'delete_blog' %}">Delete blog</a></li>
+       {% if request.user.is_superuser %}
+      <li><a href="{% url 'create_user_form' %}">Create user</a></li>
+      {% endif %}
+      <li><a href="{% url 'logout_user' %}">Logout <b>{{request.user.username}}</b></a></li>
+    </ul>
+  </div>
+</nav>
+
+  {% if blogs_list %}
+   <h2>List of blogs (click to delete)</h2>
+  <div class="list-group">
+    {% for blog in blogs_list %}
+    <a href="{% url 'delete' blog.id %}" class="list-group-item">{{ blog.title }}</a>
+     {% endfor %}
+  </div>
+  {% else %}
+    <h2>No blogs are available.</h2>
+  {% endif %}
+</div>
+</div>
+</body>
+</html>
